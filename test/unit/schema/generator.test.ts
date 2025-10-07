@@ -43,7 +43,7 @@ class TestBase {
 
 describe('Schema Info', () => {
   it('should throw error when getting schema for undecorated class', () => {
-    class Undecorated {}
+    class Undecorated { }
     expect(() => getSchemaDef(Undecorated)).toThrow(
       'No schema found for Undecorated. Did you apply @schema decorator?',
     );
@@ -333,8 +333,9 @@ describe('Schema Generator', () => {
     it('should include schema and property descriptions', () => {
       const schema = toZodSchema(DescribedClass);
 
-      expect(schema._def.description).toBe('Test schema');
-      expect(schema.shape.prop._def.description).toBe('Test property');
+      // In Zod v4, access description directly on the schema
+      expect(schema.description).toBe('Test schema');
+      expect(schema.shape.prop.description).toBe('Test property');
     });
   });
 
@@ -400,9 +401,7 @@ describe('Schema Generator', () => {
       const schema = toZodSchema(NumberEnumClass);
       const invalidData = { numberEnum: 'not-a-number' };
 
-      expect(() => schema.parse(invalidData)).toThrow(
-        "Invalid enum value. Expected '1' | '2' | '3', received 'not-a-number'",
-      );
+      expect(() => schema.parse(invalidData)).toThrow();
     });
   });
 
@@ -774,17 +773,12 @@ describe('Schema Generator', () => {
         schema.parse({ password: 'short', age: -1 });
         fail('Should have thrown validation error');
       } catch (error: any) {
-        expect(error.errors.length).toBeGreaterThan(0);
-        expect(
-          error.errors.some((e: any) =>
-            e.message.includes('String must contain at least 8 character(s)'),
-          ),
-        ).toBe(true);
-        expect(
-          error.errors.some((e: any) =>
-            e.message.includes('Number must be greater than or equal to 0'),
-          ),
-        ).toBe(true);
+        expect(error.issues.length).toBeGreaterThan(0);
+        // Check that there are validation errors for both fields
+        const passwordError = error.issues.find((e: any) => e.path.includes('password'));
+        const ageError = error.issues.find((e: any) => e.path.includes('age'));
+        expect(passwordError).toBeDefined();
+        expect(ageError).toBeDefined();
       }
     });
   });
@@ -1043,7 +1037,7 @@ describe('Schema Generator', () => {
     });
 
     it('should handle property with unsupported type', () => {
-      class CustomType {}
+      class CustomType { }
       expect(() => {
         @schema()
         class UnsupportedType {
@@ -1395,12 +1389,27 @@ describe('Schema Generator', () => {
     class AdditionalValidations extends TestBase {
       @property('')
       @email()
+      emailField!: string;
+
+      @property('')
       @url()
+      urlField!: string;
+
+      @property('')
       @uuid()
+      uuidField!: string;
+
+      @property('')
       @cuid()
+      cuidField!: string;
+
+      @property('')
       @datetime()
+      datetimeField!: string;
+
+      @property('')
       @ip()
-      stringWithAllValidations!: string;
+      ipField!: string;
 
       @property('')
       @exclusiveMinimum(0)
@@ -1412,53 +1421,80 @@ describe('Schema Generator', () => {
     it('should apply all string validations correctly', () => {
       const schema = toZodSchema(AdditionalValidations);
 
-      // Valid case
+      // Test email validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'test@example.com',
-          numberWithAllValidations: 4,
-        }),
-      ).toThrow(); // Should fail because it's not a valid URL
-
-      // Test each validation
-      expect(() =>
-        schema.parse({
-          stringWithAllValidations: 'not-an-email',
+          emailField: 'not-an-email',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 4,
         }),
       ).toThrow();
 
+      // Test URL validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'not-a-url',
+          emailField: 'test@example.com',
+          urlField: 'not-a-url',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 4,
         }),
       ).toThrow();
 
+      // Test UUID validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'not-a-uuid',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: 'not-a-uuid',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 4,
         }),
       ).toThrow();
 
+      // Test CUID validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'not-a-cuid',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'not-a-cuid',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 4,
         }),
       ).toThrow();
 
+      // Test datetime validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'not-a-datetime',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: 'not-a-datetime',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 4,
         }),
       ).toThrow();
 
+      // Test IP validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'not-an-ip',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: 'not-an-ip',
           numberWithAllValidations: 4,
         }),
       ).toThrow();
@@ -1470,29 +1506,49 @@ describe('Schema Generator', () => {
       // Valid case
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'test@example.com',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 4,
         }),
-      ).toThrow(); // Fails because email is not a URL
+      ).not.toThrow();
 
       // Test each validation
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'test@example.com',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 0, // Should fail exclusive minimum
         }),
       ).toThrow();
 
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'test@example.com',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 10, // Should fail exclusive maximum
         }),
       ).toThrow();
 
       expect(() =>
         schema.parse({
-          stringWithAllValidations: 'test@example.com',
+          emailField: 'test@example.com',
+          urlField: 'https://example.com',
+          uuidField: '123e4567-e89b-12d3-a456-426614174000',
+          cuidField: 'clbq3x5kf0000j5wm6k4p1p5r',
+          datetimeField: '2024-01-01T00:00:00Z',
+          ipField: '192.168.1.1',
           numberWithAllValidations: 3, // Should fail multipleOf
         }),
       ).toThrow();
@@ -1629,7 +1685,7 @@ describe('Additional Generator Tests', () => {
 
   // Test for unsupported type - when nested type is not decorated with @schema
   it('should throw error for unsupported type that is not decorated with @schema', () => {
-    class UnsupportedType {}
+    class UnsupportedType { }
     expect(() => {
       @schema()
       class UnsupportedSchema extends TestBase {

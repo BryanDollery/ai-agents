@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 
 // Mock pino to control configuration
-const pinoMock = jest.fn((config) => ({
+const pinoMock = jest.fn((config: any) => ({
   level: config.level,
 }));
 

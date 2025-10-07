@@ -7,12 +7,12 @@ import {
   SpanStatusCode,
 } from '@opentelemetry/api';
 import { zodToJsonSchema } from 'zod-to-json-schema';
-import { ZodSchema } from 'zod';
+import { ZodType } from 'zod';
 
 /**
  * Type definition for valid attribute values in telemetry spans
  */
-type AttributeValue = string | ZodSchema | string[] | Object | undefined | null;
+type AttributeValue = string | ZodType | string[] | Object | undefined | null;
 
 /**
  * Telemetry class that provides a wrapper around OpenTelemetry functionality
@@ -88,10 +88,9 @@ export class Telemetry<T extends Object> {
       return;
     }
 
-    if (value instanceof ZodSchema) {
+    if (value instanceof ZodType) {
       const jsonSchema = zodToJsonSchema(value, {
         $refStrategy: 'none',
-        errorMessages: false,
       });
       this.span.setAttribute(key, JSON.stringify(jsonSchema));
       return;

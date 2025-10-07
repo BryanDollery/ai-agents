@@ -133,7 +133,8 @@ target/
 
 # IDE and editor settings
 .idea/               # JetBrains
-.vscode/             # Visual Studio Code
+.vscode
+reports
 *.swp                # Vim
 *.swo                # Vim
 *.sublime-project

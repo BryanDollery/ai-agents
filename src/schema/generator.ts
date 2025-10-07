@@ -173,22 +173,22 @@ function applyValidationRule(
       if (!isZodString(schema)) {
         throw new Error('Email validation can only be applied to strings');
       }
-      return schema.email();
+      return z.email();
     case 'url':
       if (!isZodString(schema)) {
         throw new Error('URL validation can only be applied to strings');
       }
-      return schema.url();
+      return z.url();
     case 'uuid':
       if (!isZodString(schema)) {
         throw new Error('UUID validation can only be applied to strings');
       }
-      return schema.uuid();
+      return z.uuid();
     case 'cuid':
       if (!isZodString(schema)) {
         throw new Error('CUID validation can only be applied to strings');
       }
-      return schema.cuid();
+      return z.cuid();
     case 'datetime':
       if (!isZodString(schema)) {
         throw new Error('Datetime validation can only be applied to strings');
@@ -198,7 +198,13 @@ function applyValidationRule(
       if (!isZodString(schema)) {
         throw new Error('IP validation can only be applied to strings');
       }
-      return schema.ip();
+      // In Zod v4, .ip() was removed. Use a union of ipv4 and ipv6 or z.string() with custom regex
+      return schema.refine((value) => {
+        // Basic IP validation regex (supports both IPv4 and IPv6)
+        const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        const ipv6Regex = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|^::1$|^::$/;
+        return ipv4Regex.test(value) || ipv6Regex.test(value);
+      }, { message: 'Invalid IP address' });
     case 'pattern':
       if (!isZodString(schema)) {
         throw new Error('Pattern validation can only be applied to strings');

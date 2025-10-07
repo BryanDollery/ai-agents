@@ -134,8 +134,8 @@ export abstract class Agent<TInput = any, TOutput = any> {
     if (!schema) {
       logger.debug(
         `No output schema found for ${this.constructor.name}. ` +
-          `Did you forget to apply @output decorator? ` +
-          `Falling back to string schema.`,
+        `Did you forget to apply @output decorator? ` +
+        `Falling back to string schema.`,
       );
       return z.string();
     }
@@ -182,7 +182,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
         if (!inputSchema) {
           logger.warn(
             `No input schema found for ${this.constructor.name}. ` +
-              `Did you forget to apply @input decorator?`,
+            `Did you forget to apply @input decorator?`,
           );
         }
         return JSON.stringify(input);
@@ -275,8 +275,8 @@ export abstract class Agent<TInput = any, TOutput = any> {
   private addTelemetry(
     model: LanguageModelV1,
     tools: Record<string, CoreTool>,
-    outputSchema: z.ZodType<any, z.ZodTypeDef, any>,
-    inputSchema: z.ZodType<any, z.ZodTypeDef, any> | undefined,
+    outputSchema: z.ZodType<any>,
+    inputSchema: z.ZodType<any> | undefined,
   ): void {
     this.telemetry.addAttribute(
       'agent.model',

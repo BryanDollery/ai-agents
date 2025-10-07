@@ -1,8 +1,8 @@
 {
-  "name": "@axarai/axar",
-  "version": "0.0.6",
+  "name": "@bryandollery/ai-agents",
+  "version": "0.1",
   "private": false,
-  "description": "TypeScript-based agent framework for building agentic applications powered by LLMs",
+  "description": "Syntactic sugar wrapper around vecel ai-sdk. A copy of Axar-AI, which appears to be abandoned.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -44,9 +44,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/axar-ai/axar.git"
+    "url": "git+https://github.com/bryandollery/ai-agents.git"
   },
-  "author": "axar-ai",
+  "author": "axar-ai, bryan dollery",
   "license": "ISC",
   "dependencies": {
     "@ai-sdk/anthropic": "1.0.6",
@@ -54,35 +54,37 @@
     "@ai-sdk/provider": "1.0.4",
     "@opentelemetry/api": "^1.9.0",
     "ai": "4.1.27",
-    "pino": "^9.6.0",
-    "reflect-metadata": "^0.2.1",
-    "zod": "^3.23.8",
-    "zod-to-json-schema": "^3.24.1"
+    "pino": "^9.13.1",
+    "reflect-metadata": "^0.2.2",
+    "zod": "^4.1.12",
+    "zod-to-json-schema": "^3.24.6"
   },
   "devDependencies": {
-    "@ai-sdk/google": "^1.1.11",
+    "@types/bun": "latest",
+    "@ai-sdk/google": "^1.2.22",
     "@jest/globals": "^29.7.0",
     "@opentelemetry/auto-instrumentations-node": "^0.55.3",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.57.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.57.2",
     "@opentelemetry/resources": "^1.30.1",
-    "@opentelemetry/sdk-node": "^0.57.1",
+    "@opentelemetry/sdk-node": "^0.57.2",
     "@opentelemetry/sdk-trace-node": "^1.30.1",
-    "@opentelemetry/semantic-conventions": "^1.28.0",
+    "@opentelemetry/semantic-conventions": "^1.37.0",
     "@types/jest": "^29.5.14",
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^22.10.8",
-    "dotenv": "^16.4.7",
+    "@types/node": "^22.18.8",
+    "dotenv": "^16.6.1",
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
     "open-cli": "^8.0.0",
-    "prettier": "^3.4.2",
-    "ts-jest": "^29.2.5",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.4",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.27.6",
-    "typescript": "^5.7.2"
+    "typedoc": "^0.27.9",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "pino-pretty": "^13.0.0"
+    "pino-pretty": "^13.0.0",
+    "typescript": "^5.9.3"
   },
   "peerDependenciesMeta": {
     "pino-pretty": {
