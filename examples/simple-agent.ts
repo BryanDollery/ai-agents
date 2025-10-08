@@ -1,8 +1,8 @@
-import { model, systemPrompt, Agent } from '@axarai/axar';
+import { model, systemPrompt, Agent } from '@bryandollery/ai-agents';
 
 @model('openai:gpt-4o-mini')
 @systemPrompt('Be concise, reply with one sentence')
-export class SimpleAgent extends Agent<string, string> {}
+export class SimpleAgent extends Agent<string, string> { }
 
 async function main() {
   const response = await new SimpleAgent().run(

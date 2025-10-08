@@ -1,4 +1,4 @@
-import { model, systemPrompt, Agent, output, input } from '@axarai/axar';
+import { model, systemPrompt, Agent, output, input } from '@bryandollery/ai-agents';
 import { z } from 'zod';
 
 const GreetingAgentRequestSchema = z.object({
@@ -28,7 +28,7 @@ type GreetingAgentResponse = z.infer<typeof GreetingAgentResponseSchema>;
 export class GreetingAgent extends Agent<
   GreetingAgentRequest,
   GreetingAgentResponse
-> {}
+> { }
 
 // Instantiate and run the agent
 (async () => {

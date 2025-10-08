@@ -1,4 +1,4 @@
-import { model, systemPrompt, Agent } from '@axarai/axar';
+import { model, systemPrompt, Agent } from '@bryandollery/ai-agents';
 
 // Specify the AI model used by the agent
 @model('openai:gpt-4o-mini')
@@ -6,7 +6,7 @@ import { model, systemPrompt, Agent } from '@axarai/axar';
 @systemPrompt(`
   Greet the user by their name in a friendly tone.
 `)
-export class GreetingAgent extends Agent<string, string> {}
+export class GreetingAgent extends Agent<string, string> { }
 
 // Example usage
 export async function main() {

@@ -1,4 +1,4 @@
-import { model, systemPrompt, Agent } from "@axarai/axar";
+import { model, systemPrompt, Agent } from "@bryandollery/ai-agents";
 
 // Specify the AI model used by the agent
 @model('openai:gpt-4o-mini')

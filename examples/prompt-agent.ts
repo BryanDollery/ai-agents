@@ -1,4 +1,4 @@
-import { model, systemPrompt, Agent } from '@axarai/axar';
+import { model, systemPrompt, Agent } from '@bryandollery/ai-agents';
 
 @model('openai:gpt-4o-mini')
 @systemPrompt("Use the customer's name while replying.")

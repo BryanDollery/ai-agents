@@ -1,4 +1,4 @@
-import { model, systemPrompt, Agent, tool } from '@axarai/axar';
+import { model, systemPrompt, Agent, tool } from '@bryandollery/ai-agents';
 import { z } from 'zod';
 
 const WeatherParamsSchema = z.object({

@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeAll, beforeEach } from '@jest/globals';
 import dotenv from 'dotenv';
-import { Agent, model, systemPrompt } from '@axarai/axar';
+import { Agent, model, systemPrompt } from '@bryandollery/ai-agents';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -23,7 +23,7 @@ describe('GreetingAgent E2E Tests', () => {
     @systemPrompt(`
       Greet the user by their name in a friendly tone.
     `)
-    class DynamicGreetingAgent extends Agent<string, string> {}
+    class DynamicGreetingAgent extends Agent<string, string> { }
 
     return new DynamicGreetingAgent();
   }

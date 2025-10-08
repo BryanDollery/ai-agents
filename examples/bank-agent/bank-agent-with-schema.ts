@@ -1,5 +1,5 @@
-import { systemPrompt, model, output, tool, Agent } from '@axarai/axar';
-import { property, min, max, schema, optional, enumValues } from '@axarai/axar';
+import { systemPrompt, model, output, tool, Agent } from '@bryandollery/ai-agents';
+import { property, min, max, schema, optional, enumValues } from '@bryandollery/ai-agents';
 
 export interface DatabaseConn {
   customerName(id: number): Promise<string>;

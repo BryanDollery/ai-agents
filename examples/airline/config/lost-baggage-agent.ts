@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { output, Agent, tool, model, systemPrompt } from '@axarai/axar';
-import { property, schema, optional } from '@axarai/axar';
+import { output, Agent, tool, model, systemPrompt } from '@bryandollery/ai-agents';
+import { property, schema, optional } from '@bryandollery/ai-agents';
 import { LOST_BAGGAGE_POLICY, STARTER_PROMPT } from './policies';
 import { caseResolved, escalateToAgent, initiateBaggageSearch } from './tools';
 

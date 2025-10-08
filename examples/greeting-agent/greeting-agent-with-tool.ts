@@ -5,7 +5,7 @@ import {
   tool,
   schema,
   property,
-} from '@axarai/axar';
+} from '@bryandollery/ai-agents';
 
 @schema()
 class WeatherParams {

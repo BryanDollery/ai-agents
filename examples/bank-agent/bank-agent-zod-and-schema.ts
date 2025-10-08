@@ -7,7 +7,7 @@ import {
   optional,
   property,
   schema,
-} from '@axarai/axar';
+} from '@bryandollery/ai-agents';
 import z from 'zod';
 
 export interface DatabaseConn {

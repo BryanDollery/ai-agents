@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { model, output, systemPrompt, tool, Agent } from '@axarai/axar';
-import { property, schema } from '@axarai/axar';
+import { model, output, systemPrompt, tool, Agent } from '@bryandollery/ai-agents';
+import { property, schema } from '@bryandollery/ai-agents';
 
 export interface DatabaseConn {
   refundItem(userId: number, itemId: number): Promise<string>;

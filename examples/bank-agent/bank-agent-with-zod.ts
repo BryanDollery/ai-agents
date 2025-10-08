@@ -1,5 +1,5 @@
 import z from 'zod';
-import { model, systemPrompt, output, tool, Agent } from '@axarai/axar';
+import { model, systemPrompt, output, tool, Agent } from '@bryandollery/ai-agents';
 
 export interface DatabaseConn {
   customerName(id: number): Promise<string>;

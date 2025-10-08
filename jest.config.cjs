@@ -2,7 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^@axarai/axar$': '<rootDir>/src', // Map your alias to the `src` folder
+    '^@bryandollery/ai-agents$': '<rootDir>/src', // Map your alias to the `src` folder
   },
   collectCoverage: true, // Enable coverage collection
   coverageDirectory: 'coverage', // Directory to output coverage files

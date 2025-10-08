@@ -8,7 +8,7 @@ import {
   input,
   tool,
   optional,
-} from '@axarai/axar';
+} from '@bryandollery/ai-agents';
 
 @schema()
 class GreetingAgentRequest {

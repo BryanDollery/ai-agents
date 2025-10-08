@@ -7,7 +7,7 @@ import {
   output,
   input,
   optional,
-} from '@axarai/axar';
+} from '@bryandollery/ai-agents';
 
 @schema()
 export class GreetingAgentRequest {
@@ -61,7 +61,7 @@ export class GreetingAgentResponse {
 export class GreetingAgent extends Agent<
   GreetingAgentRequest,
   GreetingAgentResponse
-> {}
+> { }
 
 // Example usage
 export async function main() {

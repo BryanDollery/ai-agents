@@ -8,7 +8,7 @@ import {
   input,
   enumValues,
   tool,
-} from '@axarai/axar';
+} from '@bryandollery/ai-agents';
 
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { Resource } from '@opentelemetry/resources';

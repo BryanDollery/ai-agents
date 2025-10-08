@@ -1,15 +1,15 @@
-import { model, systemPrompt, Agent } from '@axarai/axar';
+import { model, systemPrompt, Agent } from '@bryandollery/ai-agents';
 
 // FIXME: Support boolean output
 @model('openai:gpt-4o-mini')
 // @validateOutput(SupportResponseSchema)
 @systemPrompt(`Respond in one line`)
-export class ConversationAgent extends Agent<string, string> {}
+export class ConversationAgent extends Agent<string, string> { }
 
 @model('openai:gpt-4o-mini')
 // @validateOutput(SupportResponseSchema)
 @systemPrompt(`Respond with a joke`)
-export class JokeAgent extends Agent<string, string> {}
+export class JokeAgent extends Agent<string, string> { }
 
 async function main() {
   const cAgent = new ConversationAgent();
