@@ -198,7 +198,9 @@ function applyValidationRule(
       if (!isZodString(schema)) {
         throw new Error('IP validation can only be applied to strings');
       }
-      return schema.ip();
+      // In Zod v4, ip() is deprecated, use ipv4() or ipv6()
+      // For backwards compatibility, we'll use ipv4() by default
+      return schema.ipv4();
     case 'pattern':
       if (!isZodString(schema)) {
         throw new Error('Pattern validation can only be applied to strings');

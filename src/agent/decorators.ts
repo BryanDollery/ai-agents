@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { z, ZodSchema, ZodObject } from 'zod';
+import { z, ZodType, ZodObject } from 'zod';
 import { META_KEYS } from './meta-keys';
 import { ToolMetadata, InputOutputType, ModelConfig } from './types';
 import { hasSchemaDef, getSchemaDef } from '../schema';
@@ -49,9 +49,10 @@ export function model(
  * @param decoratorName - The name of the decorator that we're creating the schema for
  * @returns The created schema
  */
-function createSchema(type: InputOutputType, decoratorName: string): ZodSchema {
-  if (type instanceof ZodSchema) {
-    return type;
+function createSchema(type: InputOutputType, decoratorName: string): ZodType<any> {
+  // Check if it's a Zod schema (v4 way)
+  if (type && typeof type === 'object' && '_zod' in type) {
+    return type as ZodType<any>;
   }
 
   const primitiveSchemas = {
@@ -73,7 +74,7 @@ function createSchema(type: InputOutputType, decoratorName: string): ZodSchema {
 
   throw new Error(
     `${decoratorName} error: Could not create a schema for "${typeName}". ` +
-      `Type must be a Zod schema, a class decorated with @schema, or a primitive constructor (String, Number, Boolean).`,
+    `Type must be a Zod schema, a class decorated with @schema, or a primitive constructor (String, Number, Boolean).`,
   );
 }
 
@@ -270,7 +271,7 @@ function systemPromptMethod(): MethodDecorator {
  */
 export function tool(
   description: string,
-  schemaOrClass?: ZodSchema<any> | SchemaConstructor,
+  schemaOrClass?: ZodType<any> | SchemaConstructor,
 ): MethodDecorator {
   return function (
     target: Object,
@@ -285,17 +286,18 @@ export function tool(
       );
     }
 
-    let schema: ZodSchema<any>;
+    let schema: ZodType<any>;
 
     if (schemaOrClass) {
-      if (schemaOrClass instanceof z.ZodSchema) {
+      // Check if it's a Zod schema (v4 way)
+      if (schemaOrClass && typeof schemaOrClass === 'object' && '_zod' in schemaOrClass) {
         // Explicit Zod schema provided
-        schema = schemaOrClass;
-      } else if (hasSchemaDef(schemaOrClass)) {
-        schema = getSchemaDef(schemaOrClass);
+        schema = schemaOrClass as ZodType<any>;
+      } else if (hasSchemaDef(schemaOrClass as SchemaConstructor)) {
+        schema = getSchemaDef(schemaOrClass as SchemaConstructor);
       } else {
         throw new Error(
-          `${schemaOrClass.name} must be either a Zod schema or a class decorated with @schema`,
+          `${(schemaOrClass as any).name} must be either a Zod schema or a class decorated with @schema`,
         );
       }
     } else {

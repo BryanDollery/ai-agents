@@ -21,7 +21,16 @@ This project is a fork of axar-ai. It will not be merged back beause that projec
 
 # Immdeitate Tasks
 
-1. [ ] Remove zod-schema-to-json dependency by finding a different way to convert the zod schema to json schema
+1. [x] Remove zod-schema-to-json dependency by finding a different way to convert the zod schema to json schema
 2. [ ] Upgrade ai-sdk and related libs (provider, openai, and anthropic), and zod
 3. [ ] Upgrade other libs
 
+# Behaviour
+
+- Run the tests with `bun run test`
+- Run the tests frequently
+- Do not disable, remove, or otherwise skip any tests
+- Ensure test semantics aren't changed when altering the code
+- Ensure the application semantics are maintained when changing the code
+- Ask me questions whenever there is any uncertainty
+- The docs are much more relevant than the implementation - read the docs first

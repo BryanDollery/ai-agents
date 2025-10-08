@@ -1,7 +1,7 @@
 import { Agent, model, output, systemPrompt, tool } from '../../../src/agent';
 import { z } from 'zod';
 import { logger } from '../../../src/common';
-import { CoreTool, ToolExecutionOptions, LanguageModelV1 } from 'ai';
+import { LanguageModel } from 'ai';
 
 jest.mock('ai', () => {
   const generateText = jest.fn();
@@ -140,10 +140,10 @@ describe('Agent', () => {
       const tools = agent['getTools']();
       expect(tools).toHaveProperty('customerBalance');
 
-      const customerBalanceTool = tools['customerBalance'] as CoreTool;
+      const customerBalanceTool = tools['customerBalance'] as any;
       expect(customerBalanceTool.execute).toBeDefined();
 
-      const options: ToolExecutionOptions = {
+      const options = {
         toolCallId: 'test-call',
         messages: [],
       };
@@ -482,7 +482,7 @@ describe('Agent', () => {
       const model = {
         modelId: 'test-model',
         provider: 'test-provider',
-      } as LanguageModelV1;
+      } as LanguageModel;
       const tools = {};
       const outputSchema = z.string();
 

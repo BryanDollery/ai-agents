@@ -2,9 +2,8 @@ import { z, ZodSchema } from 'zod';
 import {
   generateText,
   CoreMessage,
-  CoreTool,
   Output,
-  LanguageModelV1,
+  LanguageModel,
   StreamTextResult,
 } from 'ai';
 import { META_KEYS } from './meta-keys';
@@ -54,7 +53,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
    * @returns Promise resolving to the language model instance
    * @throws {Error} If model metadata is not found
    */
-  protected async getModel(): Promise<LanguageModelV1> {
+  protected async getModel(): Promise<LanguageModel> {
     const providerModelName = Agent.getMetadata<string>(
       META_KEYS.MODEL,
       this.constructor,
@@ -87,7 +86,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
    *
    * @returns A record of tool names to their implementations
    */
-  protected getTools(): Record<string, CoreTool> {
+  protected getTools(): Record<string, any> {
     const tools = Agent.getMetadata<ToolMetadata[]>(
       META_KEYS.TOOLS,
       this.constructor,
@@ -104,7 +103,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
       ]),
     );
 
-    return toolsFormatted as Record<string, CoreTool>;
+    return toolsFormatted as Record<string, any>;
   }
 
   /**
@@ -263,9 +262,8 @@ export abstract class Agent<TInput = any, TOutput = any> {
     }
   }
 
-  /**
-   * Adds telemetry attributes for monitoring and debugging purposes.
-   * Records information about the model, tools, and schemas being used.
+    /**
+   * Adds telemetry attributes for agent configuration and operations.
    *
    * @param model - The language model being used
    * @param tools - The tools available to the agent
@@ -273,14 +271,24 @@ export abstract class Agent<TInput = any, TOutput = any> {
    * @param inputSchema - The schema for validating inputs, if any
    */
   private addTelemetry(
-    model: LanguageModelV1,
-    tools: Record<string, CoreTool>,
-    outputSchema: z.ZodType<any, z.ZodTypeDef, any>,
-    inputSchema: z.ZodType<any, z.ZodTypeDef, any> | undefined,
+    model: LanguageModel,
+    tools: Record<string, any>,
+    outputSchema: z.ZodType<any, any, any>,
+    inputSchema: z.ZodType<any, any, any> | undefined,
   ): void {
+    // model can be a string or LanguageModel object in AI SDK v5
+    let modelStr: string;
+    if (typeof model === 'string') {
+      modelStr = model;
+    } else {
+      const modelObj = model as any;
+      modelStr = modelObj.modelId && modelObj.provider 
+        ? `${modelObj.modelId}:${modelObj.provider}`
+        : modelObj.modelId || String(model);
+    }
     this.telemetry.addAttribute(
       'agent.model',
-      `${model.modelId}:${model.provider}`,
+      modelStr,
     );
     this.telemetry.addAttribute('agent.tools', Object.keys(tools));
     this.telemetry.addAttribute('agent.output_schema', outputSchema);
@@ -297,7 +305,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
    * @returns An async iterable of processed chunks matching the output type
    */
   private processStream(
-    stream: StreamTextResult<Record<string, CoreTool>, TOutput>,
+    stream: StreamTextResult<any, TOutput>,
     schema: ZodSchema,
   ): AsyncIterable<StreamOutput<TOutput>> {
     if (schema instanceof z.ZodString) {
@@ -401,7 +409,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
       return this.withErrorHandling(async () => {
         const config = await this.createConfig(input);
         const rawStream = streamText(config) as StreamTextResult<
-          Record<string, CoreTool>,
+          any,
           TOutput
         >;
         return {

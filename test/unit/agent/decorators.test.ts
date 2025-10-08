@@ -335,8 +335,8 @@ describe('Decorators', () => {
         fail('Should have thrown a validation error');
       } catch (error) {
         expect(error).toBeInstanceOf(z.ZodError);
-        expect((error as z.ZodError).errors[0].message).toBe(
-          'Expected string, received number',
+        expect((error as z.ZodError).issues[0].message).toContain(
+          'expected string',
         );
       }
     });

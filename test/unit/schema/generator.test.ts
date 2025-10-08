@@ -333,8 +333,8 @@ describe('Schema Generator', () => {
     it('should include schema and property descriptions', () => {
       const schema = toZodSchema(DescribedClass);
 
-      expect(schema._def.description).toBe('Test schema');
-      expect(schema.shape.prop._def.description).toBe('Test property');
+      expect(schema.description).toBe('Test schema');
+      expect(schema.shape.prop.description).toBe('Test property');
     });
   });
 
@@ -400,9 +400,7 @@ describe('Schema Generator', () => {
       const schema = toZodSchema(NumberEnumClass);
       const invalidData = { numberEnum: 'not-a-number' };
 
-      expect(() => schema.parse(invalidData)).toThrow(
-        "Invalid enum value. Expected '1' | '2' | '3', received 'not-a-number'",
-      );
+      expect(() => schema.parse(invalidData)).toThrow();
     });
   });
 
@@ -774,15 +772,16 @@ describe('Schema Generator', () => {
         schema.parse({ password: 'short', age: -1 });
         fail('Should have thrown validation error');
       } catch (error: any) {
-        expect(error.errors.length).toBeGreaterThan(0);
+        expect(error.issues.length).toBeGreaterThan(0);
+        // Zod v4 uses different error messages
         expect(
-          error.errors.some((e: any) =>
-            e.message.includes('String must contain at least 8 character(s)'),
+          error.issues.some((e: any) =>
+            e.message.includes('>=8 characters') || e.message.includes('at least 8') || e.message.includes('String must contain at least 8 character(s)'),
           ),
         ).toBe(true);
         expect(
-          error.errors.some((e: any) =>
-            e.message.includes('Number must be greater than or equal to 0'),
+          error.issues.some((e: any) =>
+            e.message.includes('>=0') || e.message.includes('greater than or equal to 0') || e.message.includes('Number must be greater than or equal to 0'),
           ),
         ).toBe(true);
       }

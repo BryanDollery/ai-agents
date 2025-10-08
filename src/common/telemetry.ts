@@ -87,13 +87,14 @@ export class Telemetry<T extends Object> {
       return;
     }
 
-    if (value instanceof ZodSchema) {
+    // Check if it's a Zod schema (v4 way)
+    if (value && typeof value === 'object' && '_zod' in value) {
       // For telemetry purposes, provide a simple representation of the schema
       // rather than full JSON schema conversion
       const schemaInfo = {
         type: 'ZodSchema',
-        typeName: value._def.typeName || 'unknown',
-        description: value.description || undefined,
+        typeName: (value as any)._zod?.def?.type || 'unknown',
+        description: (value as any).description || undefined,
       };
       this.span.setAttribute(key, JSON.stringify(schemaInfo));
       return;

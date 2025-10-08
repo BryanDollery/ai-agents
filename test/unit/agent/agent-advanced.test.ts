@@ -214,7 +214,7 @@ describe('toZodSchema - Advanced Scenarios', () => {
       expect(invalidResult.success).toBe(false);
 
       if (!invalidResult.success) {
-        const errors = invalidResult.error.errors;
+        const errors = invalidResult.error.issues;
         // Error messages to assert
         expect(errors).toEqual(
           expect.arrayContaining([

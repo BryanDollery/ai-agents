@@ -1,12 +1,10 @@
-import { z, ZodSchema } from 'zod';
+import { z, ZodType } from 'zod';
 import { SchemaConstructor } from '../schema';
 import {
-  CoreTool,
   StreamTextResult,
   DeepPartial,
   Output,
-  CoreMessage,
-  LanguageModelV1,
+  ModelMessage,
 } from 'ai';
 
 /**
@@ -15,7 +13,7 @@ import {
  * Used to define the shape and validation rules for agent inputs and outputs.
  */
 export type InputOutputType =
-  | ZodSchema
+  | ZodType
   | SchemaConstructor
   | StringConstructor
   | NumberConstructor
@@ -52,7 +50,7 @@ export interface StreamResult<TOutput> {
   stream: AsyncIterable<StreamOutput<TOutput>>;
 
   /** Raw stream access for advanced usage */
-  raw: StreamTextResult<Record<string, CoreTool>, TOutput>;
+  raw: StreamTextResult<any, TOutput>;
 }
 
 /**
@@ -64,9 +62,9 @@ export type ExperimentalOutput = ReturnType<typeof Output.object>;
  * Configuration for agent output handling
  */
 export interface OutputConfig {
-  model: LanguageModelV1;
-  messages: CoreMessage[];
-  tools: Record<string, CoreTool>;
+  model: any; // LanguageModel type from provider
+  messages: ModelMessage[];
+  tools: Record<string, any>; // Tool type from ai package
   maxSteps: number;
   /** Maximum number of tokens to generate */
   maxTokens?: number;

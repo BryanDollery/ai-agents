@@ -92,7 +92,7 @@ describe('Telemetry', () => {
       expect(call[0]).toBe('key');
       expect(JSON.parse(call[1])).toMatchObject({
         type: 'ZodSchema',
-        typeName: 'ZodObject'
+        typeName: 'object'
       });
     });
 
