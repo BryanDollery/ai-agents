@@ -1,3 +1,13 @@
+# **FORK OF AXAR-AI**
+
+This is a fork of axar-ai, a brilliant wrapper around Vercel's excellent AI-SDK.
+
+I have forked the axar repo because it appears to be abandoned but I really want to use it. I found that I had a problem because it is using an old broken version of Zod. I have fixed that in this version and pushed it to npm.com for testing.
+
+The initial project is absolutely the right way to write agents in javascript/typescript. I run it in bun with no problems at all without using ts-node because bun supports descriptors just fine, Bun is great. All hail Bun.
+
+# Original README
+
 <p align="center">
   <img src="https://1845789600-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FEsqZ01bZEklboQR0Pa9C%2Fuploads%2FzA1p5nNK5LK1Nlo8yjxh%2FColor%20logo%20with%20background.svg?alt=media&token=df4fd20a-d9be-4994-99b7-8ae3f9f558cb" alt="AXAR Logo" width="360">
 </p>
