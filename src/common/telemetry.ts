@@ -6,7 +6,6 @@ import {
   Context,
   SpanStatusCode,
 } from '@opentelemetry/api';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ZodSchema } from 'zod';
 
 /**
@@ -62,7 +61,7 @@ export class Telemetry<T extends Object> {
    * @param key - The attribute key to be added to the span
    * @param value - The attribute value. Can be:
    *   - string: Added directly as an attribute
-   *   - ZodSchema: Converted to JSON schema before adding
+   *   - ZodSchema: Converted to a simple schema representation before adding
    *   - string[]: Stringified before adding
    *   - Object: Stringified with indentation before adding
    *   - undefined/null: Ignored
@@ -89,11 +88,14 @@ export class Telemetry<T extends Object> {
     }
 
     if (value instanceof ZodSchema) {
-      const jsonSchema = zodToJsonSchema(value, {
-        $refStrategy: 'none',
-        errorMessages: false,
-      });
-      this.span.setAttribute(key, JSON.stringify(jsonSchema));
+      // For telemetry purposes, provide a simple representation of the schema
+      // rather than full JSON schema conversion
+      const schemaInfo = {
+        type: 'ZodSchema',
+        typeName: value._def.typeName || 'unknown',
+        description: value.description || undefined,
+      };
+      this.span.setAttribute(key, JSON.stringify(schemaInfo));
       return;
     }
 
