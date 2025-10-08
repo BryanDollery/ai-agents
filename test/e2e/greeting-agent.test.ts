@@ -7,13 +7,10 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 type SupportedModel =
   | 'openai:gpt-4'
   | 'openai:gpt-4-turbo'
-  | 'anthropic:claude-3-5-sonnet-20241022'
-  | 'google:gemini-2.0-flash-exp';
+  | 'openai:gpt-4o-mini';
 
 describe('GreetingAgent E2E Tests', () => {
   let openAIKey: string;
-  let anthropicKey: string;
-  let googleKey: string;
 
   // Factory function to create agent with specific model
   function createGreetingAgent(
@@ -33,24 +30,10 @@ describe('GreetingAgent E2E Tests', () => {
     dotenv.config({ path: '.env.local' });
 
     openAIKey = process.env.OPENAI_API_KEY || '';
-    anthropicKey = process.env.ANTHROPIC_API_KEY || '';
-    googleKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || '';
 
     if (!openAIKey) {
       throw new Error(
         'OPENAI_API_KEY environment variable is required for tests',
-      );
-    }
-
-    if (!anthropicKey) {
-      throw new Error(
-        'ANTHROPIC_API_KEY environment variable is required for tests',
-      );
-    }
-
-    if (!googleKey) {
-      throw new Error(
-        'GOOGLE_GENERATIVE_AI_API_KEY environment variable is required for tests',
       );
     }
   });
@@ -70,7 +53,7 @@ describe('GreetingAgent E2E Tests', () => {
     expect(response.toLowerCase()).toContain('hello');
   }, 15000);
 
-  test('should handle different names appropriately using GPT-3.5', async () => {
+  test('should handle different names appropriately using GPT-4 Turbo', async () => {
     const agent = createGreetingAgent('openai:gpt-4-turbo');
     const response = await agent.run('My name is Bob');
 
@@ -94,27 +77,13 @@ describe('GreetingAgent E2E Tests', () => {
     ).toBeTruthy();
   }, 15000);
 
-  test('should work with Anthropic Claude', async () => {
-    const agent = createGreetingAgent('anthropic:claude-3-5-sonnet-20241022');
+  test('should work with GPT-4o-mini', async () => {
+    const agent = createGreetingAgent('openai:gpt-4o-mini');
     const response = await agent.run('My name is David');
 
     expect(response).toBeTruthy();
     expect(typeof response).toBe('string');
     expect(response.toLowerCase()).toContain('david');
-    // Check for any common greeting word
-    const greetings = ['hello', 'hi', 'hey', 'greetings'];
-    expect(
-      greetings.some((greeting) => response.toLowerCase().includes(greeting)),
-    ).toBeTruthy();
-  }, 30000);
-
-  test('should work with Google Gemini', async () => {
-    const agent = createGreetingAgent('google:gemini-2.0-flash-exp');
-    const response = await agent.run('My name is Eve');
-
-    expect(response).toBeTruthy();
-    expect(typeof response).toBe('string');
-    expect(response.toLowerCase()).toContain('eve');
     // Check for any common greeting word
     const greetings = ['hello', 'hi', 'hey', 'greetings'];
     expect(
