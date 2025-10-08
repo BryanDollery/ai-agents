@@ -33,7 +33,7 @@ describe('providers.ts', () => {
       (key) => delete dynamicProviderCache[key],
     );
     // Mock console.error
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => { });
   });
 
   afterEach(() => {
@@ -100,7 +100,7 @@ describe('providers.ts', () => {
     });
 
     it('should handle function-type providers', async () => {
-      const functionProvider = function () {};
+      const functionProvider = function () { };
       functionProvider.languageModel = jest.fn();
       expect(isValidProvider(functionProvider)).toBe(true);
     });

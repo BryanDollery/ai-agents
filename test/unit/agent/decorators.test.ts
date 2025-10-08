@@ -8,7 +8,7 @@ describe('Decorators', () => {
     it('should store model identifier in metadata', () => {
       // Test class
       @model('openai:gpt-4')
-      class TestClass {}
+      class TestClass { }
 
       // Verify metadata
       const metadata = Reflect.getMetadata(META_KEYS.MODEL, TestClass);
@@ -25,7 +25,7 @@ describe('Decorators', () => {
       };
 
       @model('openai:gpt-4', config)
-      class TestClass {}
+      class TestClass { }
 
       // Verify model identifier
       const modelMetadata = Reflect.getMetadata(META_KEYS.MODEL, TestClass);
@@ -47,7 +47,7 @@ describe('Decorators', () => {
       };
 
       @model('openai:gpt-4', partialConfig)
-      class TestClass {}
+      class TestClass { }
 
       const configMetadata = Reflect.getMetadata(
         META_KEYS.MODEL_CONFIG,
@@ -60,7 +60,7 @@ describe('Decorators', () => {
 
     it('should not store model configuration when not provided', () => {
       @model('openai:gpt-4')
-      class TestClass {}
+      class TestClass { }
 
       const configMetadata = Reflect.getMetadata(
         META_KEYS.MODEL_CONFIG,
@@ -76,7 +76,7 @@ describe('Decorators', () => {
 
       @input(testSchema)
       @output(testSchema)
-      class TestClass {}
+      class TestClass { }
 
       const inputMetadata = Reflect.getMetadata(META_KEYS.INPUT, TestClass);
       const outputMetadata = Reflect.getMetadata(META_KEYS.OUTPUT, TestClass);
@@ -91,7 +91,7 @@ describe('Decorators', () => {
 
       expect(() => {
         @input(invalidType as any)
-        class TestClass {}
+        class TestClass { }
       }).toThrow(
         '@input error: Could not create a schema for "[object Object]". Type must be a Zod schema, a class decorated with @schema, or a primitive constructor (String, Number, Boolean).',
       );
@@ -100,7 +100,7 @@ describe('Decorators', () => {
     it('should handle primitive types', () => {
       @input(String)
       @output(Number)
-      class TestClass {}
+      class TestClass { }
 
       const inputMetadata = Reflect.getMetadata(META_KEYS.INPUT, TestClass);
       const outputMetadata = Reflect.getMetadata(META_KEYS.OUTPUT, TestClass);
@@ -117,7 +117,7 @@ describe('Decorators', () => {
 
       @input(TestSchema)
       @output(TestSchema)
-      class TestClass {}
+      class TestClass { }
 
       const inputMetadata = Reflect.getMetadata(META_KEYS.INPUT, TestClass);
       const outputMetadata = Reflect.getMetadata(META_KEYS.OUTPUT, TestClass);
@@ -127,16 +127,16 @@ describe('Decorators', () => {
     });
 
     it('should throw for invalid type specifications', () => {
-      class InvalidType {}
+      class InvalidType { }
 
       expect(() => {
         @input(InvalidType)
-        class TestClass {}
+        class TestClass { }
       }).toThrow();
 
       expect(() => {
         @output(InvalidType)
-        class TestClass {}
+        class TestClass { }
       }).toThrow();
     });
   });
@@ -144,7 +144,7 @@ describe('Decorators', () => {
   describe('@systemPrompt', () => {
     it('should store static prompt in metadata', () => {
       @systemPrompt('Test prompt')
-      class TestClass {}
+      class TestClass { }
 
       const prompts = Reflect.getMetadata(META_KEYS.SYSTEM_PROMPTS, TestClass);
       expect(prompts).toHaveLength(1);
@@ -198,7 +198,7 @@ describe('Decorators', () => {
     });
 
     it('should throw when applied to a property', () => {
-      class TestClass {} // Define the class first
+      class TestClass { } // Define the class first
       const decorator = systemPrompt();
       expect(() => {
         decorator(TestClass.prototype, 'prompt', {
@@ -342,7 +342,7 @@ describe('Decorators', () => {
     });
 
     it('should throw when applied to a property', () => {
-      class TestClass {}
+      class TestClass { }
       const decorator = tool('Test tool');
       expect(() => {
         decorator(TestClass.prototype, 'toolProperty', {

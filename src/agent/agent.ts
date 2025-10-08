@@ -133,8 +133,8 @@ export abstract class Agent<TInput = any, TOutput = any> {
     if (!schema) {
       logger.debug(
         `No output schema found for ${this.constructor.name}. ` +
-          `Did you forget to apply @output decorator? ` +
-          `Falling back to string schema.`,
+        `Did you forget to apply @output decorator? ` +
+        `Falling back to string schema.`,
       );
       return z.string();
     }
@@ -181,7 +181,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
         if (!inputSchema) {
           logger.warn(
             `No input schema found for ${this.constructor.name}. ` +
-              `Did you forget to apply @input decorator?`,
+            `Did you forget to apply @input decorator?`,
           );
         }
         return JSON.stringify(input);
@@ -262,14 +262,14 @@ export abstract class Agent<TInput = any, TOutput = any> {
     }
   }
 
-    /**
-   * Adds telemetry attributes for agent configuration and operations.
-   *
-   * @param model - The language model being used
-   * @param tools - The tools available to the agent
-   * @param outputSchema - The schema for validating outputs
-   * @param inputSchema - The schema for validating inputs, if any
-   */
+  /**
+ * Adds telemetry attributes for agent configuration and operations.
+ *
+ * @param model - The language model being used
+ * @param tools - The tools available to the agent
+ * @param outputSchema - The schema for validating outputs
+ * @param inputSchema - The schema for validating inputs, if any
+ */
   private addTelemetry(
     model: LanguageModel,
     tools: Record<string, any>,
@@ -282,7 +282,7 @@ export abstract class Agent<TInput = any, TOutput = any> {
       modelStr = model;
     } else {
       const modelObj = model as any;
-      modelStr = modelObj.modelId && modelObj.provider 
+      modelStr = modelObj.modelId && modelObj.provider
         ? `${modelObj.modelId}:${modelObj.provider}`
         : modelObj.modelId || String(model);
     }

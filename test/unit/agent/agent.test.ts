@@ -112,7 +112,7 @@ describe('Agent', () => {
     });
 
     it('should throw error when model decorator is missing', async () => {
-      class UnDecoratedAgent extends Agent<any, SupportResponse> {}
+      class UnDecoratedAgent extends Agent<any, SupportResponse> { }
       const undecoratedAgent = new UnDecoratedAgent();
       await expect(undecoratedAgent['getModel']()).rejects.toThrow(
         'Model metadata not found. Please apply @model decorator.',
@@ -160,7 +160,7 @@ describe('Agent', () => {
     });
 
     it('should return empty object when no tools are configured', () => {
-      class NoToolsAgent extends Agent<any, any> {}
+      class NoToolsAgent extends Agent<any, any> { }
       const noToolsAgent = new NoToolsAgent();
       const tools = noToolsAgent['getTools']();
       expect(tools).toEqual({});
@@ -174,10 +174,10 @@ describe('Agent', () => {
       );
       expect(prompts).toEqual([
         '\n' +
-          '      You are a support agent in our bank. \n' +
-          '      Give the customer support and judge the risk level of their query.\n' +
-          "      Reply using the customer's name.\n" +
-          '    ',
+        '      You are a support agent in our bank. \n' +
+        '      Give the customer support and judge the risk level of their query.\n' +
+        "      Reply using the customer's name.\n" +
+        '    ',
         'Customer ID: Sudipta',
       ]);
     });
@@ -190,7 +190,7 @@ describe('Agent', () => {
     });
 
     it('should return string schema when output schema is not defined', () => {
-      class UnDecoratedAgent extends Agent<any, SupportResponse> {}
+      class UnDecoratedAgent extends Agent<any, SupportResponse> { }
       const undecoratedAgent = new UnDecoratedAgent();
       const schema = undecoratedAgent['getOutputSchema']();
       expect(schema.constructor.name).toBe('ZodString');
@@ -432,7 +432,7 @@ describe('Agent', () => {
       };
 
       @model('openai:gpt-4o-mini', config)
-      class ConfiguredAgent extends Agent<string, string> {}
+      class ConfiguredAgent extends Agent<string, string> { }
 
       const configuredAgent = new ConfiguredAgent();
       const generateTextSpy = jest.spyOn(require('ai'), 'generateText');
@@ -464,7 +464,7 @@ describe('Agent', () => {
 
   describe('getInputSchema', () => {
     it('should return undefined when no input schema is configured', () => {
-      class UnDecoratedAgent extends Agent<any, SupportResponse> {}
+      class UnDecoratedAgent extends Agent<any, SupportResponse> { }
       const undecoratedAgent = new UnDecoratedAgent();
       expect(undecoratedAgent['getInputSchema']()).toBeUndefined();
     });
@@ -507,7 +507,7 @@ describe('Agent', () => {
   describe('getModelConfig', () => {
     it('should return empty object when no config is provided', () => {
       @model('openai:gpt-4o-mini')
-      class NoConfigAgent extends Agent<string, string> {}
+      class NoConfigAgent extends Agent<string, string> { }
 
       const noConfigAgent = new NoConfigAgent();
       const config = noConfigAgent['getModelConfig']();
@@ -524,7 +524,7 @@ describe('Agent', () => {
       };
 
       @model('openai:gpt-4o-mini', fullConfig)
-      class FullConfigAgent extends Agent<string, string> {}
+      class FullConfigAgent extends Agent<string, string> { }
 
       const fullConfigAgent = new FullConfigAgent();
       const config = fullConfigAgent['getModelConfig']();
@@ -538,7 +538,7 @@ describe('Agent', () => {
       };
 
       @model('openai:gpt-4o-mini', partialConfig)
-      class PartialConfigAgent extends Agent<string, string> {}
+      class PartialConfigAgent extends Agent<string, string> { }
 
       const partialConfigAgent = new PartialConfigAgent();
       const config = partialConfigAgent['getModelConfig']();

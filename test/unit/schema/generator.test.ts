@@ -43,7 +43,7 @@ class TestBase {
 
 describe('Schema Info', () => {
   it('should throw error when getting schema for undecorated class', () => {
-    class Undecorated {}
+    class Undecorated { }
     expect(() => getSchemaDef(Undecorated)).toThrow(
       'No schema found for Undecorated. Did you apply @schema decorator?',
     );
@@ -1042,7 +1042,7 @@ describe('Schema Generator', () => {
     });
 
     it('should handle property with unsupported type', () => {
-      class CustomType {}
+      class CustomType { }
       expect(() => {
         @schema()
         class UnsupportedType {
@@ -1628,7 +1628,7 @@ describe('Additional Generator Tests', () => {
 
   // Test for unsupported type - when nested type is not decorated with @schema
   it('should throw error for unsupported type that is not decorated with @schema', () => {
-    class UnsupportedType {}
+    class UnsupportedType { }
     expect(() => {
       @schema()
       class UnsupportedSchema extends TestBase {

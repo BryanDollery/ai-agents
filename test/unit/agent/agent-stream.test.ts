@@ -427,7 +427,7 @@ describe('Agent Streaming', () => {
       };
 
       @model('openai:gpt-4o-mini', config)
-      class ConfiguredAgent extends Agent<string, string> {}
+      class ConfiguredAgent extends Agent<string, string> { }
 
       const configuredAgent = new ConfiguredAgent();
       const mockStream = {
