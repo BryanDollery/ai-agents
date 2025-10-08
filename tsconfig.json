@@ -9,11 +9,20 @@
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
-      "@axarai/axar": ["./"]
+      "@axarai/axar": [
+        "./"
+      ]
     },
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*", "test/**/*", "examples/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "examples/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

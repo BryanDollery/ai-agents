@@ -1,7 +1,7 @@
 {
   "name": "@axarai/axar",
   "version": "0.0.6",
-  "private": false,
+  "private": true,
   "description": "TypeScript-based agent framework for building agentic applications powered by LLMs",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -79,7 +79,8 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typedoc": "^0.27.6",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "pino-pretty": "^13.0.0"
@@ -88,5 +89,6 @@
     "pino-pretty": {
       "optional": true
     }
-  }
+  },
+  "type": "module"
 }

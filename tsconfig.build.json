@@ -9,10 +9,16 @@
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
-      "@axarai/axar": ["./"]
+      "@axarai/axar": [
+        "./"
+      ]
     },
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "types": [
+      "node",
+      "jest"
+    ]
   },
   "include": [
     "src/**/*.ts",
