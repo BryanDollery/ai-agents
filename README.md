@@ -12,7 +12,20 @@
 </div>
 <br/>
 
-**AXAR AI** is a lightweight framework for building production-ready agentic applications using TypeScript. It’s designed to help you create robust, production-grade LLM-powered apps using familiar coding practices—no unnecessary abstractions, no steep learning curve.
+## What is AXAR AI?
+
+**AXAR AI** is a lightweight, decorator-based TypeScript framework for building LLM-powered AI agent applications. It lets you define agents, their behavior, tools, and structured I/O entirely in TypeScript using familiar patterns — decorators, dependency injection, and Zod schemas — with no unnecessary abstractions and no steep learning curve.
+
+| | |
+|---|---|
+| **Language** | TypeScript / Node.js |
+| **Core abstraction** | `Agent<TInput, TOutput>` base class |
+| **Configuration style** | Decorators: `@model`, `@systemPrompt`, `@tool`, `@input`, `@output` |
+| **Model support** | OpenAI, Anthropic, Google Gemini, and any Vercel AI SDK provider |
+| **Output modes** | Blocking (`run`) and streaming (`stream`) |
+| **Schema validation** | Zod — for both inputs and structured outputs |
+| **Observability** | Built-in OpenTelemetry tracing |
+| **Status** | Early alpha — not yet production-ready |
 
 ## ⌾ Yet another framework?
 
